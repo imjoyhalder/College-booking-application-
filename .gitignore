@@ -6,7 +6,8 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+college-booking-server/.env
+college-booking-client/.env.local
 node_modules
 dist
 dist-ssr
