@@ -11,6 +11,7 @@ const admissionRoutes = require('./routes/admissions');
 const reviewRoutes = require('./routes/reviews');
 const connectDB = require('./config/database');
 
+
 const app = express();
 
 // Middleware
@@ -21,8 +22,9 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/colleges', collegeRoutes);
-app.use('/api/admissions', admissionRoutes);
 app.use('/api/reviews', reviewRoutes);
+app.use('/api/admissions', admissionRoutes);
+
 
 // Home route
 app.get('/', (req, res) => {

@@ -3,13 +3,11 @@ const mongoose = require('mongoose');
 
 const admissionSchema = new mongoose.Schema({
     user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        type: String,
         required: true
     },
     college: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'College',
+        type:String,
         required: true
     },
     candidateName: {

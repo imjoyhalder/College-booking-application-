@@ -170,28 +170,7 @@ const ReviewSection = () => {
                     </div>
                 </div>
 
-                {/* Add Review Button */}
-                {user ? (
-                    <button
-                        onClick={() => setShowReviewForm(true)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center"
-                    >
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        Add Your Review
-                    </button>
-                ) : (
-                    <div className="text-center">
-                        <p className="text-gray-600 mb-2">Want to share your experience?</p>
-                        <button
-                            onClick={() => {/* Navigate to login */ }}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                        >
-                            Login to Review
-                        </button>
-                    </div>
-                )}
+
             </div>
 
             {/* Reviews Grid */}

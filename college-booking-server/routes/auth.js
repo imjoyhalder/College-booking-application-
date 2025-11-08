@@ -1,4 +1,4 @@
-// routes/auth.js
+
 const express = require('express');
 const { register, login, getMe, updateProfile } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
