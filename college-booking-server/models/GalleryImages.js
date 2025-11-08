@@ -1,4 +1,4 @@
-// models/GalleryImage.js (Simplified version)
+// This model not used It's build for future uses
 const mongoose = require('mongoose');
 
 const galleryImageSchema = new mongoose.Schema({

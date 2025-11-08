@@ -1,4 +1,4 @@
-// models/Admission.js
+
 const mongoose = require('mongoose');
 
 const admissionSchema = new mongoose.Schema({

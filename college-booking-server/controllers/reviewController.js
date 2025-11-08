@@ -48,25 +48,6 @@ exports.createReview = async (req, res, next) => {
     }
 };
 
-// @desc    Get user reviews
-// @route   GET /api/reviews/my-reviews
-// @access  Private
-exports.getMyReviews = async (req, res, next) => {
-    try {
-        const reviews = await Review.find({ user: req.user.id })
-            .populate('college', 'name image location')
-            .sort('-createdAt');
-
-        res.json({
-            success: true,
-            count: reviews.length,
-            data: reviews
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
 
 // @desc    Create review
 // @route   POST /api/reviews
