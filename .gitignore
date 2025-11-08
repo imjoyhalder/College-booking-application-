@@ -1,3 +1,7 @@
+# Node modules (both frontend and backend)
+college-booking-client/node_modules
+college-booking-server/node_modules
+.env
 # Logs
 logs
 *.log
@@ -7,34 +11,18 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Node modules
-node_modules/
-
-# Build directories
-dist/
-dist-ssr/
-build/
-
-# Environment files (Prevent sensitive data from being pushed)
-college-booking-server/.env
-college-booking-client/.env.local
-*.env
-*.env.*
-
-# Local config
+node_modules
+dist
+dist-ssr
 *.local
 
-# Editor and system files
+# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-.idea/
+.idea
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# Optional: lock files if you don’t want to track them
-# package-lock.json
-# yarn.lock

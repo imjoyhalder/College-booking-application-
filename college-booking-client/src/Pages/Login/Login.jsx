@@ -1,4 +1,4 @@
-// src/Pages/Login/Login.jsx
+
 import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Providers/AuthProvider';
@@ -245,15 +245,6 @@ const Login = () => {
                         </p>
                     </div>
                 </form>
-
-                {/* Demo Credentials */}
-                <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                    <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Credentials:</h3>
-                    <p className="text-xs text-blue-700">
-                        Email: demo@example.com<br />
-                        Password: demo123
-                    </p>
-                </div>
             </div>
         </div>
     );

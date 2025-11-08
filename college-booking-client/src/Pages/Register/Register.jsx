@@ -312,17 +312,6 @@ const Register = () => {
                         </p>
                     </div>
                 </form>
-
-                {/* Benefits */}
-                <div className="mt-8 p-6 bg-blue-50 rounded-lg">
-                    <h3 className="text-sm font-medium text-blue-800 mb-3">Benefits of creating an account:</h3>
-                    <ul className="text-xs text-blue-700 space-y-1">
-                        <li>• Save and track your college applications</li>
-                        <li>• Write and manage reviews</li>
-                        <li>• Get personalized recommendations</li>
-                        <li>• Receive admission updates</li>
-                    </ul>
-                </div>
             </div>
         </div>
     );

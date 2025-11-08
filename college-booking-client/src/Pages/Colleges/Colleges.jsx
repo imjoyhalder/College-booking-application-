@@ -1,99 +1,41 @@
+
+
 // src/Pages/Colleges/Colleges.jsx
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 import CollegeCard from '../../Components/CollegeCard/CollegeCard';
 
 const Colleges = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterRating, setFilterRating] = useState('all');
     const [sortBy, setSortBy] = useState('name');
+    const [colleges, setColleges] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const colleges = [
-        {
-            id: 1,
-            name: "University of Technology",
-            image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.5,
-            admissionDates: "Fall 2024: Aug 15 - Sep 30",
-            researchCount: 12,
-            events: ["Tech Fest 2024", "Cultural Week", "Science Fair"],
-            sports: ["Football", "Basketball", "Cricket", "Tennis"],
-            researchHistory: "50+ Research Papers Published",
-            location: "New York, USA",
-            established: 1950,
-            students: "15,000+"
-        },
-        {
-            id: 2,
-            name: "Cambridge University",
-            image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.8,
-            admissionDates: "Spring 2024: Jan 10 - Mar 15",
-            researchCount: 25,
-            events: ["Debate Competition", "Literature Festival", "Research Symposium"],
-            sports: ["Rowing", "Rugby", "Cricket", "Athletics"],
-            researchHistory: "200+ Research Projects",
-            location: "Cambridge, UK",
-            established: 1209,
-            students: "20,000+"
-        },
-        {
-            id: 3,
-            name: "Stanford University",
-            image: "https://images.unsplash.com/photo-1541336032412-2048a678540d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.7,
-            admissionDates: "Winter 2024: Nov 1 - Dec 15",
-            researchCount: 18,
-            events: ["Innovation Summit", "Startup Expo", "Tech Conference"],
-            sports: ["Football", "Basketball", "Swimming", "Golf"],
-            researchHistory: "Leading in AI Research",
-            location: "California, USA",
-            established: 1885,
-            students: "17,000+"
-        },
-        {
-            id: 4,
-            name: "Harvard University",
-            image: "https://images.unsplash.com/photo-1569012871812-f38ee64cd54c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.9,
-            admissionDates: "Fall 2024: Sep 1 - Oct 30",
-            researchCount: 30,
-            events: ["Leadership Summit", "Academic Conference", "Career Fair"],
-            sports: ["Basketball", "Soccer", "Swimming", "Track & Field"],
-            researchHistory: "300+ Research Publications",
-            location: "Massachusetts, USA",
-            established: 1636,
-            students: "22,000+"
-        },
-        {
-            id: 5,
-            name: "MIT University",
-            image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.8,
-            admissionDates: "Spring 2024: Feb 1 - Mar 31",
-            researchCount: 22,
-            events: ["Tech Innovation", "Research Expo", "Hackathon"],
-            sports: ["Basketball", "Soccer", "Volleyball", "Tennis"],
-            researchHistory: "Innovation and Technology Focus",
-            location: "Massachusetts, USA",
-            established: 1861,
-            students: "11,000+"
-        },
-        {
-            id: 6,
-            name: "Oxford University",
-            image: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            rating: 4.7,
-            admissionDates: "Fall 2024: Oct 1 - Nov 30",
-            researchCount: 28,
-            events: ["Academic Symposium", "Cultural Festival", "Sports Meet"],
-            sports: ["Rowing", "Cricket", "Rugby", "Athletics"],
-            researchHistory: "World-class Research Facilities",
-            location: "Oxford, UK",
-            established: 1096,
-            students: "24,000+"
-        }
-    ];
+    useEffect(() => {
+        const fetchColleges = async () => {
+            try {
+                setLoading(true);
+                const res = await fetch('http://localhost:5000/api/colleges');
+                const data = await res.json();
+
+                if (data.success) {
+                    setColleges(data.data || []);
+                } else {
+                    setError('Failed to fetch colleges');
+                }
+            } catch (error) {
+                console.error("Error fetching colleges:", error);
+                setError('Failed to connect to server');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchColleges();
+    }, []);
+
+    console.log(colleges);
 
     // Filter and sort colleges
     const filteredColleges = colleges
@@ -120,6 +62,62 @@ const Colleges = () => {
                     return 0;
             }
         });
+
+    // Reset filters
+    const handleResetFilters = () => {
+        setSearchTerm('');
+        setFilterRating('all');
+        setSortBy('name');
+    };
+
+    // Loading state
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-8">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                            Explore Colleges
+                        </h1>
+                        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                            Loading colleges...
+                        </p>
+                    </div>
+                    <div className="flex justify-center items-center py-20">
+                        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Error state
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gray-50 py-8">
+                <div className="container mx-auto px-4">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+                            Explore Colleges
+                        </h1>
+                    </div>
+                    <div className="text-center py-16">
+                        <svg className="w-24 h-24 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.35 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <h3 className="text-2xl font-semibold text-gray-600 mb-2">Error Loading Colleges</h3>
+                        <p className="text-gray-500 mb-6">{error}</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 py-8">
@@ -212,7 +210,7 @@ const Colleges = () => {
                 {filteredColleges.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {filteredColleges.map(college => (
-                            <CollegeCard key={college.id} college={college} />
+                            <CollegeCard key={college._id} college={college} />
                         ))}
                     </div>
                 ) : (
@@ -223,11 +221,7 @@ const Colleges = () => {
                         <h3 className="text-2xl font-semibold text-gray-600 mb-2">No colleges found</h3>
                         <p className="text-gray-500 mb-6">Try adjusting your search or filters</p>
                         <button
-                            onClick={() => {
-                                setSearchTerm('');
-                                setFilterRating('all');
-                                setSortBy('name');
-                            }}
+                            onClick={handleResetFilters}
                             className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
                         >
                             Reset Filters

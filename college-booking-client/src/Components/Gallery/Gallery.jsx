@@ -1,4 +1,4 @@
-// src/Components/Gallery/Gallery.jsx
+
 import { useState } from 'react';
 
 const Gallery = () => {
