@@ -31,11 +31,11 @@ const MyCollege = () => {
                 }
 
                 // Fetch application summary
-                const summaryRes = await fetch(`http://localhost:5000/api/admissions/applied-summary/${email}`);
+                const summaryRes = await fetch(`https://college-booking-application.vercel.app/api/admissions/applied-summary/${email}`);
                 const summaryData = await summaryRes.json();
 
                 // Fetch detailed applied colleges
-                const appliedRes = await fetch(`http://localhost:5000/api/admissions/applied-by-email/${email}`);
+                const appliedRes = await fetch(`https://college-booking-application.vercel.app/api/admissions/applied-by-email/${email}`);
                 const appliedData = await appliedRes.json();
 
                 if (summaryData.success) {
@@ -90,7 +90,7 @@ const MyCollege = () => {
             const email = user?.email;
             if (!email) return;
 
-            const response = await fetch(`http://localhost:5000/api/reviews/user/${email}`);
+            const response = await fetch(`https://college-booking-application.vercel.app/api/reviews/user/${email}`);
             const data = await response.json();
 
             if (data.success) {
@@ -144,7 +144,7 @@ const MyCollege = () => {
                 comment: reviewData.comment
             };
 
-            const response = await fetch('http://localhost:5000/api/reviews', {
+            const response = await fetch('https://college-booking-application.vercel.app/api/reviews', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ const MyCollege = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/api/reviews/${reviewId}`, {
+            const response = await fetch(`https://college-booking-application.vercel.app/api/reviews/${reviewId}`, {
                 method: 'DELETE'
             });
 

@@ -21,7 +21,7 @@ const Home = () => {
         const fetchColleges = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:5000/api/colleges');
+                const res = await fetch('https://college-booking-application.vercel.app/api/colleges');
                 const data = await res.json();
 
                 if (data.success) {
@@ -44,7 +44,7 @@ const Home = () => {
         const fetchReviews = async () => {
             try {
                 setReviewsLoading(true);
-                const res = await fetch('http://localhost:5000/api/reviews?limit=6');
+                const res = await fetch('https://college-booking-application.vercel.app/api/reviews?limit=6');
                 const data = await res.json();
 
                 if (data.success) {

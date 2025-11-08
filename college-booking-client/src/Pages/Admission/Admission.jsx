@@ -48,7 +48,7 @@ const Admission = () => {
         const fetchColleges = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:5000/api/colleges');
+                const res = await fetch('https://college-booking-application.vercel.app/api/colleges');
                 const data = await res.json();
                 if (data.success) {
                     setColleges(data.data || []);
@@ -150,7 +150,7 @@ const Admission = () => {
 
             console.log('Submitting:', admissionData);
 
-            const response = await fetch('http://localhost:5000/api/admissions', {
+            const response = await fetch('https://college-booking-application.vercel.app/api/admissions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(admissionData)
@@ -352,7 +352,7 @@ const Admission = () => {
                                         required
                                         disabled={submitting}
                                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:bg-gray-100"
-                                        placeholder="+8801724687654"
+                                        placeholder="+88017246"
                                     />
                                 </div>
 

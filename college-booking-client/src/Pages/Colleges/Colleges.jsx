@@ -15,7 +15,7 @@ const Colleges = () => {
         const fetchColleges = async () => {
             try {
                 setLoading(true);
-                const res = await fetch('http://localhost:5000/api/colleges');
+                const res = await fetch('https://college-booking-application.vercel.app/api/colleges');
                 const data = await res.json();
 
                 if (data.success) {
