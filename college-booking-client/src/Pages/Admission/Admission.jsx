@@ -1549,7 +1549,7 @@ const Admission = () => {
                     dateOfBirth: '',
                     image: null
                 });
-                navigate('/my-admissions');
+                navigate('/my-college');
             } else {
                 alert(result.message || 'Failed to submit.');
             }

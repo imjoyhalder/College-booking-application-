@@ -57,7 +57,7 @@ const College = require('../models/College');
 //         });
 //     } catch (error) {
 //         console.error('Admission creation error:', error);
-        
+
 //         // Handle duplicate key error
 //         if (error.code === 11000) {
 //             return res.status(400).json({
@@ -65,7 +65,7 @@ const College = require('../models/College');
 //                 message: 'Already applied to this college'
 //             });
 //         }
-        
+
 //         // Handle validation errors
 //         if (error.name === 'ValidationError') {
 //             const messages = Object.values(error.errors).map(val => val.message);
@@ -85,7 +85,7 @@ const College = require('../models/College');
 exports.createAdmission = async (req, res, next) => {
     try {
         const {
-            user, 
+            user,
             college,
             candidateName,
             subject,
@@ -169,28 +169,6 @@ exports.createAdmission = async (req, res, next) => {
     }
 };
 
-// @desc    Get user admissions
-// @route   GET /api/admissions/my-admissions
-// @access  Private
-exports.getMyAdmissions = async (req, res, next) => {
-    try {
-        const admissions = await Admission.find({ user: req.user.id })
-            .populate('college', 'name image location rating admissionDates')
-            .sort({ applicationDate: -1 });
-
-        res.json({
-            success: true,
-            count: admissions.length,
-            data: admissions
-        });
-    } catch (error) {
-        console.error('Get admissions error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Server error'
-        });
-    }
-};
 
 // @desc    Get all admissions (for admin)
 // @route   GET /api/admissions
@@ -216,13 +194,60 @@ exports.getAdmissions = async (req, res, next) => {
     }
 };
 
+exports.getAppliedCollegesByEmail = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            });
+        }
+
+        // Step 1: Find all admissions for this email
+        const admissions = await Admission.find({ email: email.toLowerCase() }).select("college");
+
+        if (admissions.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No college applications found for this email",
+                data: []
+            });
+        }
+
+        // Step 2: Extract unique college IDs
+        const collegeIds = [...new Set(admissions.map(a => a.college.toString()))];
+
+        // Step 3: Fetch the college details
+        const colleges = await College.find({ _id: { $in: collegeIds } })
+            .select("name image location rating established researchCount description");
+
+        res.status(200).json({
+            success: true,
+            count: colleges.length,
+            data: colleges
+        });
+
+    } catch (error) {
+        console.error("Error fetching applied colleges:", error);
+        res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
+
+
+
 // @desc    Update admission status
 // @route   PUT /api/admissions/:id
 // @access  Private/Admin
 exports.updateAdmission = async (req, res, next) => {
     try {
         const { status } = req.body;
-        
+
         const admission = await Admission.findByIdAndUpdate(
             req.params.id,
             { status },
@@ -243,6 +268,58 @@ exports.updateAdmission = async (req, res, next) => {
         });
     } catch (error) {
         console.error('Update admission error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error'
+        });
+    }
+};
+
+// @desc    Get applied colleges summary by email
+// @route   GET /api/colleges/applied-summary/:email
+// @access  Public
+exports.getAppliedCollegesSummary = async (req, res, next) => {
+    try {
+        const { email } = req.params;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email is required'
+            });
+        }
+
+        // Get admission counts by status
+        const statusCounts = await Admission.aggregate([
+            { $match: { email: email.toLowerCase() } },
+            {
+                $group: {
+                    _id: '$status',
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        // Get total applications count
+        const totalApplications = await Admission.countDocuments({ email: email.toLowerCase() });
+
+        // Get applied colleges count
+        const appliedColleges = await Admission.distinct('college', { email: email.toLowerCase() });
+
+        res.json({
+            success: true,
+            data: {
+                totalApplications,
+                appliedCollegesCount: appliedColleges.length,
+                statusCounts: statusCounts.reduce((acc, curr) => {
+                    acc[curr._id] = curr.count;
+                    return acc;
+                }, {}),
+                email: email
+            }
+        });
+    } catch (error) {
+        console.error('Get applied colleges summary error:', error);
         res.status(500).json({
             success: false,
             message: 'Server error'

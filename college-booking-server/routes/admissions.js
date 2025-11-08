@@ -2,19 +2,22 @@
 const express = require('express');
 const { 
     createAdmission, 
-    getMyAdmissions, 
     getAdmissions, 
-    updateAdmission 
+    getAppliedCollegesSummary,
+    getAppliedCollegesByEmail
 } = require('../controllers/admissionController');
 
 
 const router = express.Router();
 
 router.post('/', createAdmission);
-router.get('/my-admissions', getMyAdmissions);
+// router.get('/my-admissions', getAdmissionsByEmail);
 
 // create for after use
-// router.get('/', protect, authorize('admin'), getAdmissions); // Admin only
+router.get('/', getAdmissions); // Admin only
 // router.put('/:id', protect, authorize('admin'), updateAdmission); // Admin only
+
+router.get('/applied-by-email/:email',getAppliedCollegesByEmail );
+router.get('/applied-summary/:email', getAppliedCollegesSummary);
 
 module.exports = router;
