@@ -1,4 +1,4 @@
-// src/Pages/NotFound/NotFound.jsx
+
 import { Link } from 'react-router-dom';
 
 const NotFound = () => {

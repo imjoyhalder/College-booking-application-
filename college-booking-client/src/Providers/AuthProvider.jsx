@@ -1,4 +1,4 @@
-// AuthProvider.js
+
 import { createContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, updateProfile, signInWithPopup, GoogleAuthProvider, sendPasswordResetEmail } from "firebase/auth";
 import auth from "../firebase/firebase.config";

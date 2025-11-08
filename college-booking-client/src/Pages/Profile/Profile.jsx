@@ -1,4 +1,4 @@
-// src/Pages/Profile/Profile.jsx
+
 import { useContext, useState } from 'react';
 import { AuthContext } from '../../Providers/AuthProvider';
 
@@ -21,7 +21,7 @@ const Profile = () => {
         email: user?.email || 'john.doe@example.com',
         university: 'University of Technology',
         address: '123 Main Street, New York, NY 10001',
-        phone: '+1 (555) 123-4567',
+        phone: '+8801745678904',
         bio: 'Passionate computer science student with interest in AI and machine learning. Looking forward to pursuing higher education at top universities.',
         joinDate: '2024-01-15',
         applications: 3,
@@ -135,24 +135,7 @@ const Profile = () => {
                             </div>
                         </div>
 
-                        {/* Account Settings */}
-                        <div className="bg-white rounded-2xl shadow-lg p-6">
-                            <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Settings</h3>
-                            <div className="space-y-3">
-                                <button className="w-full text-left text-gray-600 hover:text-blue-600 transition-colors py-2">
-                                    Change Password
-                                </button>
-                                <button className="w-full text-left text-gray-600 hover:text-blue-600 transition-colors py-2">
-                                    Notification Settings
-                                </button>
-                                <button className="w-full text-left text-gray-600 hover:text-blue-600 transition-colors py-2">
-                                    Privacy Settings
-                                </button>
-                                <button className="w-full text-left text-red-600 hover:text-red-700 transition-colors py-2">
-                                    Delete Account
-                                </button>
-                            </div>
-                        </div>
+                        
                     </div>
 
                     {/* Right Column - Profile Information */}

@@ -2,9 +2,8 @@
 const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
+    email: {
+        type: String,
         required: true
     },
     college: {
@@ -31,7 +30,7 @@ const reviewSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Prevent duplicate reviews
-reviewSchema.index({ user: 1, college: 1 }, { unique: true });
+// Prevent duplicate reviews from same email for same college
+reviewSchema.index({ email: 1, college: 1 }, { unique: true });
 
 module.exports = mongoose.model('Review', reviewSchema);

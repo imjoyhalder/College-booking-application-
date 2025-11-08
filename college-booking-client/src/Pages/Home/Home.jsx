@@ -4,62 +4,19 @@ import { Link } from 'react-router-dom';
 import SearchBar from '../../Components/SearchBar/SearchBar';
 import CollegeCard from '../../Components/CollegeCard/CollegeCard';
 import Gallery from '../../Components/Gallery/Gallery';
-import ReviewSection from '../../Components/ReviewSection/ReviewSection';
+import { FaUniversity, FaGraduationCap, FaStar, FaHeadset, FaQuoteLeft, FaCalendarAlt, FaUserGraduate, FaCheckCircle } from 'react-icons/fa';
 
 const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [showSearchResults, setShowSearchResults] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState([])
-    const[featuredColleges, setFeaturedColleges] = useState([])
-    const[loading, setLoading] = useState('')
+    const [featuredColleges, setFeaturedColleges] = useState([])
+    const [loading, setLoading] = useState('')
+    const [reviews, setReviews] = useState([])
+    const [reviewsLoading, setReviewsLoading] = useState(true)
 
-    // Sample data for colleges
-    // const featuredColleges = [
-    //     {
-    //         id: 1,
-    //         name: "University of Technology",
-    //         image: "https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    //         admissionDates: "Fall 2024: Aug 15 - Sep 30",
-    //         events: ["Tech Fest 2024", "Cultural Week", "Science Fair"],
-    //         researchHistory: "50+ Research Papers Published",
-    //         sports: ["Football", "Basketball", "Cricket", "Tennis"],
-    //         rating: 4.5,
-    //         researchCount: 12,
-    //         location: "New York, USA",
-    //         established: 1950,
-    //         students: "15,000+"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Cambridge University",
-    //         image: "https://ichef.bbci.co.uk/ace/standard/2048/cpsprodpb/2c03/live/64d39070-8596-11ef-addc-5556603eb4c1.jpg",
-    //         admissionDates: "Spring 2024: Jan 10 - Mar 15",
-    //         events: ["Debate Competition", "Literature Festival", "Research Symposium"],
-    //         researchHistory: "200+ Research Projects",
-    //         sports: ["Rowing", "Rugby", "Cricket", "Athletics"],
-    //         rating: 4.8,
-    //         researchCount: 25,
-    //         location: "Cambridge, UK",
-    //         established: 1209,
-    //         students: "20,000+"
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Stanford University",
-    //         image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO_Nx-whawEStoQFKaDLwyoOxqp7Ic-imiwQ&s",
-    //         admissionDates: "Winter 2024: Nov 1 - Dec 15",
-    //         events: ["Innovation Summit", "Startup Expo", "Tech Conference"],
-    //         researchHistory: "Leading in AI Research",
-    //         sports: ["Football", "Basketball", "Swimming", "Golf"],
-    //         rating: 4.7,
-    //         researchCount: 18,
-    //         location: "California, USA",
-    //         established: 1885,
-    //         students: "17,000+"
-    //     }
-    // ];
-
+    // Fetch featured colleges
     useEffect(() => {
         const fetchColleges = async () => {
             try {
@@ -80,6 +37,28 @@ const Home = () => {
             }
         };
         fetchColleges();
+    }, []);
+
+    // Fetch reviews
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                setReviewsLoading(true);
+                const res = await fetch('http://localhost:5000/api/reviews?limit=6');
+                const data = await res.json();
+
+                if (data.success) {
+                    setReviews(data.data || []);
+                } else {
+                    console.error('Failed to fetch reviews');
+                }
+            } catch (error) {
+                console.error("Error fetching reviews:", error);
+            } finally {
+                setReviewsLoading(false);
+            }
+        };
+        fetchReviews();
     }, []);
 
     console.log(featuredColleges);
@@ -115,12 +94,12 @@ const Home = () => {
         }
     ];
 
-    // Stats data
+    // Stats data with React Icons
     const stats = [
-        { number: "50+", label: "Partner Colleges", icon: "🏛️" },
-        { number: "10K+", label: "Successful Admissions", icon: "🎓" },
-        { number: "95%", label: "Student Satisfaction", icon: "⭐" },
-        { number: "24/7", label: "Support Available", icon: "🔧" }
+        { number: "50+", label: "Partner Colleges", icon: <FaUniversity className="text-3xl" /> },
+        { number: "10K+", label: "Successful Admissions", icon: <FaGraduationCap className="text-3xl" /> },
+        { number: "95%", label: "Student Satisfaction", icon: <FaStar className="text-3xl" /> },
+        { number: "24/7", label: "Support Available", icon: <FaHeadset className="text-3xl" /> }
     ];
 
     // Handle search functionality
@@ -185,9 +164,7 @@ const Home = () => {
                     {/* Main Heading */}
                     <div className="mb-8">
                         <div className="inline-flex items-center bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 border mt-6 border-white/30">
-                            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd" />
-                            </svg>
+                            <FaUniversity className="w-5 h-5 mr-2" />
                             Welcome to EduBook
                         </div>
                         <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
@@ -222,7 +199,9 @@ const Home = () => {
                                 key={index}
                                 className="bg-white/10 backdrop-blur-md rounded-2xl p-6 text-center border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-105 group"
                             >
-                                <div className="text-3xl mb-3 transform group-hover:scale-110 transition-transform">{stat.icon}</div>
+                                <div className="flex justify-center mb-3 transform group-hover:scale-110 transition-transform text-white">
+                                    {stat.icon}
+                                </div>
                                 <div className="text-3xl md:text-4xl font-bold text-white mb-2">
                                     {stat.number}
                                 </div>
@@ -233,8 +212,6 @@ const Home = () => {
                         ))}
                     </div>
                 </div>
-
-
             </section>
 
             {/* Search Results Section */}
@@ -296,9 +273,10 @@ const Home = () => {
             {/* Featured Colleges Section */}
             <section id="featured-colleges" className="py-20 bg-white">
                 <div className="container mx-auto px-4">
-                    <div className="text-center mb-16">
-                        <span className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
-                            🏛️ Premier Institutions
+                    <div className="text-center -mt-10 mb-16">
+                        <span className="inline-flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
+                            <FaUniversity className="mr-2" />
+                            Premier Institutions
                         </span>
                         <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
                             Featured Colleges
@@ -312,7 +290,7 @@ const Home = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {featuredColleges.map((college, index) => (
                             <div
-                                key={college.id}
+                                key={college._id || college.id}
                                 className="transform hover:scale-105 transition-all duration-500"
                                 style={{ animationDelay: `${index * 200}ms` }}
                             >
@@ -336,11 +314,12 @@ const Home = () => {
             </section>
 
             {/* College Image Gallery Section */}
-            <section className="py-20 bg-gradient-to-br from-slate-50 to-indigo-50">
+            <section className="py-10 -mt-20">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <span className="inline-block bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
-                            📸 Campus Life
+                        <span className="inline-flex items-center bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
+                            <FaGraduationCap className="mr-2" />
+                            Campus Life
                         </span>
                         <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
                             Campus Gallery
@@ -355,11 +334,12 @@ const Home = () => {
             </section>
 
             {/* Research Papers Section */}
-            <section className="py-20 bg-white">
+            <section className="py-6 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <span className="inline-block bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
-                            📚 Research Excellence
+                        <span className="inline-flex items-center bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
+                            <FaStar className="mr-2" />
+                            Research Excellence
                         </span>
                         <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
                             Featured Research
@@ -387,15 +367,11 @@ const Home = () => {
 
                                 <div className="space-y-4 mb-6">
                                     <div className="flex items-center text-gray-700">
-                                        <svg className="w-5 h-5 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                        </svg>
+                                        <FaUniversity className="w-5 h-5 mr-3 text-blue-500" />
                                         <span className="text-lg font-medium">{paper.college}</span>
                                     </div>
                                     <div className="flex items-center text-gray-700">
-                                        <svg className="w-5 h-5 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                        </svg>
+                                        <FaUserGraduate className="w-5 h-5 mr-3 text-green-500" />
                                         <span className="text-lg">{paper.authors}</span>
                                     </div>
                                 </div>
@@ -428,8 +404,9 @@ const Home = () => {
             <section className="py-20 bg-gradient-to-br from-orange-50 to-amber-50">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-16">
-                        <span className="inline-block bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
-                            💬 Student Voices
+                        <span className="inline-flex items-center bg-gradient-to-r from-orange-500 to-red-600 text-white px-6 py-3 rounded-full text-lg font-semibold mb-6 shadow-lg">
+                            <FaQuoteLeft className="mr-2" />
+                            Student Voices
                         </span>
                         <h2 className="text-5xl md:text-6xl font-bold text-gray-800 mb-6">
                             Student Experiences
@@ -439,7 +416,84 @@ const Home = () => {
                             their college journey, campus life, and academic adventures
                         </p>
                     </div>
-                    <ReviewSection />
+                    
+                    {/* Custom Reviews Section with API Data */}
+                    {reviewsLoading ? (
+                        <div className="flex justify-center items-center py-12">
+                            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-orange-600"></div>
+                        </div>
+                    ) : reviews.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {reviews.map((review, index) => (
+                                <div
+                                    key={review._id}
+                                    className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100 hover:shadow-xl transition-all duration-500 hover:scale-105 group"
+                                >
+                                    {/* Rating Stars */}
+                                    <div className="flex items-center mb-4">
+                                        {Array.from({ length: 5 }, (_, i) => (
+                                            <FaStar
+                                                key={i}
+                                                className={`w-5 h-5 ${
+                                                    i < review.rating 
+                                                        ? 'text-yellow-400 fill-current' 
+                                                        : 'text-gray-300'
+                                                }`}
+                                            />
+                                        ))}
+                                        <span className="ml-2 text-lg font-semibold text-gray-700">
+                                            ({review.rating}.0)
+                                        </span>
+                                    </div>
+
+                                    {/* Review Comment */}
+                                    <div className="mb-6">
+                                        <FaQuoteLeft className="w-8 h-8 text-orange-400 mb-4 opacity-60" />
+                                        <p className="text-gray-700 text-lg leading-relaxed italic">
+                                            "{review.comment}"
+                                        </p>
+                                    </div>
+
+                                    {/* College and Verification Info */}
+                                    <div className="space-y-3 mb-6">
+                                        <div className="flex items-center text-gray-800">
+                                            <FaUniversity className="w-4 h-4 mr-3 text-blue-500" />
+                                            <span className="font-semibold">
+                                                {review.college?.name || 'College'}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center text-gray-600">
+                                            <FaCalendarAlt className="w-4 h-4 mr-3 text-green-500" />
+                                            <span>
+                                                {new Date(review.createdAt).toLocaleDateString()}
+                                            </span>
+                                        </div>
+                                        {review.isVerified && (
+                                            <div className="flex items-center text-green-600">
+                                                <FaCheckCircle className="w-4 h-4 mr-3" />
+                                                <span className="text-sm font-medium">Verified Review</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Reviewer Email */}
+                                    <div className="border-t border-gray-200 pt-4">
+                                        <p className="text-gray-500 text-sm">
+                                            Reviewed by: {review.email}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12">
+                            <FaQuoteLeft className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                            <h3 className="text-2xl font-semibold text-gray-600 mb-2">No reviews yet</h3>
+                            <p className="text-gray-500 mb-6">
+                                Be the first to share your college experience!
+                            </p>
+                        </div>
+                    )}
                 </div>
             </section>
 

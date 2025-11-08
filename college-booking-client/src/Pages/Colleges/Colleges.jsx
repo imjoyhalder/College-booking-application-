@@ -1,6 +1,4 @@
 
-
-// src/Pages/Colleges/Colleges.jsx
 import { useEffect, useState } from 'react';
 
 import CollegeCard from '../../Components/CollegeCard/CollegeCard';
