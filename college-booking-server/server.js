@@ -20,7 +20,8 @@ app.use(
         origin: [
             "http://localhost:5173",
             "https://college-booking-application.vercel.app",
-            "https://college-booking-application-46xf.vercel.app/"
+            "https://college-booking-application-46xf.vercel.app/",
+            "https://college-booking-application-46xf-jlcmtmtz1-joy-halders-projects.vercel.app/"
         ],
         credentials: true,
     })
