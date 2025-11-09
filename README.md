@@ -199,13 +199,7 @@ This project is licensed under the **MIT License**.
 ## 👨‍💻 Developer
 **Joy Halder** – Full Stack Developer  
 
-📧 Email: [joyhalder00113355@domain.com](mailto:joyhalder00113355@gmail.com)
+📧 Email: [joyhalder00113355@gmail.com](mailto:joyhalder00113355@gmail.com)
 
----
-
-## 🆘 Support
-For support, email [joyhalder00113355@domain.com](mailto:joyhalder00113355@gmail.com) or create an issue in the repository.
-
----
 
 ⭐ **If you like this project, don’t forget to star the repo!**
