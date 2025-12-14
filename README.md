@@ -192,7 +192,7 @@ The **PrivateRoute** component protects sensitive routes by:
 ---
 
 ## 📄 License
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License**..
 
 ---
 
